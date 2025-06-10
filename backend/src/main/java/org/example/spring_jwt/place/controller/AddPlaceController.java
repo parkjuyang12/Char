@@ -1,12 +1,10 @@
 package org.example.spring_jwt.place.controller;
 
-import org.example.spring_jwt.entity.UserEntity;
 import org.example.spring_jwt.place.dto.PlaceDTO;
 import org.example.spring_jwt.place.service.PlaceService;
 import org.example.spring_jwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,9 +32,12 @@ public class AddPlaceController {
             @RequestParam("placeTitle") String placeTitle,
             @RequestParam("lat") Double latitude,
             @RequestParam("lng") Double longitude,
-            @RequestParam("rating") Integer rating,
+            @RequestParam("per_price") Integer per_price,
             @RequestParam("placeDescription") String placeDescription,
-            @RequestParam("placeImageURL") MultipartFile imageFile) throws IOException {
+            @RequestParam("placeImageURL") MultipartFile imageFile,
+            @RequestParam("char_type") String char_type,
+            @RequestParam("play_time") String play_time,
+            @RequestParam("max_car") String max_car) throws IOException {
 
         PlaceDTO placeDTO = new PlaceDTO();
 
@@ -50,8 +51,11 @@ public class AddPlaceController {
         placeDTO.setLatitude(latitude);
         placeDTO.setLongitude(longitude);
         placeDTO.setPlaceImageURL(path);
-        placeDTO.setRating(rating);
+        placeDTO.setPer_price(per_price);
         placeDTO.setPlaceDescription(placeDescription);
+        placeDTO.setChar_type(char_type);
+        placeDTO.setPlay_time(play_time);
+        placeDTO.setMax_car(max_car);
 
         System.out.println("Adding place " + placeDTO.getPlaceImageURL());
 

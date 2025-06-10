@@ -112,6 +112,7 @@ public class ChargingService {
     private ChargingDTO convertCharToDTO(ChargingStationEntity entity) {
         ChargingDTO dto = new ChargingDTO();
         dto.setStatId(entity.getStationId());
+        dto.setStatNm(entity.getName());
         dto.setLat(entity.getLatitude());
         dto.setLng(entity.getLongitude());
         dto.setAddress(entity.getAddress());

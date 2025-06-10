@@ -2,6 +2,27 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+
+  // --- images 설정 추가 시작 ---
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      // 만약 다른 외부 이미지 호스트가 있다면 여기에 추가
+      // {
+      //   protocol: 'https',
+      //   hostname: 'another-image-cdn.com',
+      //   port: '',
+      //   pathname: '/path/to/images/**',
+      // },
+    ],
+  },
+  // --- images 설정 추가 끝 ---
+
   async rewrites() {
     return [
       {

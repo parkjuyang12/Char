@@ -1,11 +1,11 @@
-"use client"
+'use client';
 
 import { useEffect, useState } from "react";
 import Map from "../components/Map";
 import Nav from "../components/Nav";
 import Modal from "../components/Modal"; // Modal 컴포넌트 임포트
-import axios from "axios";
-import Image from "next/image";
+import axios from "axios"; // axios 사용
+import Image from "next/image"; // next/image 사용
 
 export default function Dashboard() {
     const [token, setToken] = useState<string | null>(null);
@@ -39,8 +39,19 @@ export default function Dashboard() {
     // 모달 닫기
     const closeModal = () => setIsModalOpen(false);
 
-    // 모달에서 장소 등록 처리
-    const handlePlaceSubmit = async (placeTitle: string, longitude:number, latitude:number, placeDescription: string, rating:number,imageFile: File) => {
+    // --- 모달에서 장소 등록 처리 함수 수정 (rating 제거) ---
+    const handlePlaceSubmit = async (
+        placeTitle: string,
+        longitude: number,
+        latitude: number,
+        placeDescription: string,
+        // rating: number, // <--- 여기서 rating 매개변수 제거!
+        imageFile: File,
+        per_price: number,
+        char_type: string,
+        play_time: string,
+        max_car: number
+    ) => {
         if (!token) {
             alert("인증된 사용자만 장소를 등록할 수 있습니다.");
             return;
@@ -49,27 +60,46 @@ export default function Dashboard() {
         const formData = new FormData();
         formData.append("placeTitle", placeTitle);
         formData.append("placeDescription", placeDescription);
-        formData.append("lng", longitude.toString());
         formData.append("lat", latitude.toString());
-        formData.append("rating", rating.toString());
+        formData.append("lng", longitude.toString());
+        // formData.append("rating", rating.toString()); // <--- formData에서 rating 추가 코드 제거!
         formData.append("placeImageURL", imageFile);
 
+        formData.append("per_price", per_price.toString());
+        formData.append("char_type", char_type);
+        formData.append("play_time", play_time);
+        formData.append("max_car", max_car.toString());
 
         try {
             const response = await axios.post(`/api/api/place/add`, formData, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data",
                 },
             });
 
             if (response.status === 200) {
                 alert("장소가 성공적으로 등록되었습니다.");
-                closeModal(); // 모달 닫기
+                closeModal();
+            } else {
+                const errorData = response.data;
+                alert(`장소 등록 실패: ${errorData.message || errorData.error || response.statusText}`);
             }
         } catch (error) {
             console.error("장소 등록 실패:", error);
-            alert("장소 등록에 실패했습니다. 다시 시도해주세요.");
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    console.error("서버 응답 오류:", error.response.data);
+                    alert(`장소 등록 실패: ${error.response.data.message || error.response.data.error || '알 수 없는 서버 오류'}`);
+                } else if (error.request) {
+                    console.error("응답 없음:", error.request);
+                    alert("장소 등록에 실패했습니다: 서버 응답이 없습니다.");
+                } else {
+                    console.error("요청 설정 오류:", error.message);
+                    alert(`장소 등록 실패: ${error.message}`);
+                }
+            } else {
+                alert("장소 등록 중 알 수 없는 오류가 발생했습니다.");
+            }
         }
     };
 
@@ -85,8 +115,8 @@ export default function Dashboard() {
                             <Image
                                 src="/map/search.svg"
                                 alt="검색"
-                                layout="fill"
-                                objectFit="contain"
+                                width={20}
+                                height={20}
                             />
                         </div>
                         {/* 입력창 */}
@@ -97,7 +127,7 @@ export default function Dashboard() {
                         />
                     </div>
 
-                    {/* 별도 버튼 */}
+                    {/* 별도 버튼 (모달 열기 버튼) */}
                     <button
                         onClick={openModal}
                         className="w-12 h-12 bg-[#1C4966] text-white rounded-xl hover:bg-blue-600 focus:outline-none flex justify-center items-center shadow-md"
@@ -105,25 +135,17 @@ export default function Dashboard() {
                         <div className="relative w-5 h-5">
                             <Image
                                 src="/map/addplace.svg"
-                                alt="검색"
-                                layout="fill"
-                                objectFit="contain"
+                                alt="장소 추가"
+                                width={20}
+                                height={20}
                             />
                         </div>
                     </button>
                 </div>
 
-
-
                 {/* 지도 컴포넌트 */}
                 <Map />
 
-                {/* 모달 열기 버튼 */}
-                {/*<button*/}
-                {/*    onClick={openModal}*/}
-                {/*    className="absolute bottom-30 w-15 right-10 bg-black text-white p-4 rounded-full hover:bg-blue-700 focus:outline-none">*/}
-                {/*    +*/}
-                {/*</button>*/}
             </div>
 
             {/* 네비게이션 바 */}
@@ -135,9 +157,8 @@ export default function Dashboard() {
             <Modal
                 isOpen={isModalOpen}
                 onClose={closeModal}
-                onSubmit={handlePlaceSubmit}
+                onSubmit={handlePlaceSubmit} // 업데이트된 handlePlaceSubmit 함수 전달
             />
         </div>
-
     );
 }

@@ -33,8 +33,11 @@ public class PlaceService {
         place.setLatitude(placeDTO.getLatitude());
         place.setLongitude(placeDTO.getLongitude());
         place.setPlaceImageURL(placeDTO.getPlaceImageURL());
-        place.setRating(placeDTO.getRating());
+        place.setPer_price(placeDTO.getPer_price());
+        place.setChar_type(placeDTO.getChar_type());
+        place.setPlay_time(placeDTO.getPlay_time());
         place.setUser(user);
+        place.setMax_car(placeDTO.getMax_car());
 
         placeRepository.save(place);
     }
@@ -64,6 +67,11 @@ public class PlaceService {
         dto.setPlaceId(entity.getId());
         dto.setPlaceImageURL(entity.getPlaceImageURL());
         dto.setUserId(entity.getUser() != null ? entity.getUser().getId() : null);
+        dto.setChar_type(String.valueOf(entity.getChar_type() != null ? entity.getUser().getId() : null));
+        dto.setPlay_time(String.valueOf(entity.getPlay_time()  != null ? entity.getUser().getId() : null));
+        dto.setPer_price(entity.getPer_price());
+        dto.setMax_car(String.valueOf(entity.getMax_car() != null ? entity.getUser().getId() : null));
+
         return dto;
     }
 }

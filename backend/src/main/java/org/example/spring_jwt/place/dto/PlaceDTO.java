@@ -12,7 +12,10 @@ public class PlaceDTO {
     private Double latitude;
     private Double longitude;
     private String placeImageURL;
-    private Integer rating;
+    private Integer per_price;
     private int userId;
     private int placeId;
+    private String play_time;
+    private String char_type;
+    private String max_car;
 }

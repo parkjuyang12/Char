@@ -17,9 +17,11 @@ public class PlaceEntity {
     private Double latitude;
     private Double longitude;
     private String placeImageURL;
-    private Integer rating;
+    private Integer per_price;
     private String placeDescription;
-
+    private String play_time;
+    private String char_type;
+    private String max_car;
 
     @ManyToOne // 여러 PlaceDomain이 하나의 UserEntity와 연관될 수 있음
     @JoinColumn(name = "userid")    // 외래 키로 사용될 컬럼 이름
