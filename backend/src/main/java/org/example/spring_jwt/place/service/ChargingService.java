@@ -31,13 +31,13 @@ public class ChargingService {
 
 
 
-//    @PostConstruct
-//    public void init() {
-//        fetchAndInsertData("11"); // 서울
-//        fetchAndInsertData("41"); // 경기도
-//    }
+    @PostConstruct
+    public void init() {
+        fetchAndInsertData("11"); // 서울
+        fetchAndInsertData("41"); // 경기도
+    }
 // 서버 구동 시킬때 디비에 공공 충전소 적재하는 것임 . 가끔 주석 풀고 돌리기
-
+//
 
 
 

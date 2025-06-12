@@ -67,10 +67,23 @@ public class PlaceService {
         dto.setPlaceId(entity.getId());
         dto.setPlaceImageURL(entity.getPlaceImageURL());
         dto.setUserId(entity.getUser() != null ? entity.getUser().getId() : null);
-        dto.setChar_type(String.valueOf(entity.getChar_type() != null ? entity.getUser().getId() : null));
-        dto.setPlay_time(String.valueOf(entity.getPlay_time()  != null ? entity.getUser().getId() : null));
+
+        // --- 이 부분이 핵심 수정입니다! ---
+        // entity의 실제 char_type 값을 가져와야 합니다.
+        dto.setChar_type(entity.getChar_type()); // entity.getChar_type()이 이미 String이라면 String.valueOf는 불필요
+        // null 체크는 getter 내부에서 처리하거나, String.valueOf(obj)로 안전하게 변환
+        // 만약 getChar_type()이 null일 가능성이 있다면, String.valueOf()로 감싸는 것이 안전.
+        // 예: dto.setChar_type(String.valueOf(entity.getChar_type()));
+
+        // entity의 실제 play_time 값을 가져와야 합니다.
+        dto.setPlay_time(entity.getPlay_time()); // entity.getPlay_time()이 이미 String이라면 String.valueOf는 불필요
+        // 예: dto.setPlay_time(String.valueOf(entity.getPlay_time()));
+
         dto.setPer_price(entity.getPer_price());
-        dto.setMax_car(String.valueOf(entity.getMax_car() != null ? entity.getUser().getId() : null));
+
+        // entity의 실제 max_car 값을 가져와야 합니다.
+        dto.setMax_car(String.valueOf(entity.getMax_car())); // getMax_car()가 int/Integer라면 String.valueOf로 변환 (프론트에서 String으로 받으므로)
+        // --- 수정 끝 ---
 
         return dto;
     }

@@ -36,7 +36,7 @@ const InfoBox = ({ poi, onMoreClick }: { poi: Poi, onMoreClick: () => void }) =>
     // 여기서는 DTO에서 넘어오는 새 필드들을 우선적으로 사용하고, 없으면 기존 필드를 fallback으로 사용합니다.
     const displayTitle = poi.placeTitle || poi.title;
     const displayDescription = poi.placeDescription || poi.description ;
-    const displayImageUrl = poi.placeImageURL || poi.imageUrl;
+    const displayImageUrl = '/charplace/gang.png';
 
     // 숫자 타입 필드에 대한 기본값 처리 (undefined, null, 0 등)
     const displayPerPrice = (poi.per_price !== undefined && poi.per_price !== null && poi.per_price > 0) ? `${poi.per_price}원` : '정보 없음';

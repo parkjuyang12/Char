@@ -240,14 +240,14 @@ export default function CustomeMap() {
     const router = useRouter();
     const [userCenter, setUserCenter] = useState<{ lat: number, lng: number } | null>(null);
     const [lastPosition, setLastPosition] = useState<{ lat: number, lng: number } | null>(null);
-    const [textContent, setTextContent] = useState('위치 파악 중…');
+    const [textContent, setTextContent] = useState('위치 Loading');
     const [point, setPoint] = useState<Poi[] | null>(null);
     const [chargingPoints, setChargingPoints] = useState<CharPoi[] | null>(null);
 
 
     useEffect(() => {
         if (!navigator.geolocation) {
-            setTextContent("브라우저에서 위치 기능을 제공하지 않습니다.");
+            setTextContent("Location Fail");
             console.log(textContent);
         } else {
             const getCurrentLocation = async () => {
@@ -562,7 +562,7 @@ export default function CustomeMap() {
                 {userCenter && (<Map
                     defaultZoom={15}
                     defaultCenter={userCenter}
-                    mapId='YOUR_MAP_ID' // 실제 Map ID로 변경 필요!
+                    mapId='YOUR_MAP_ID'
                     onCameraChanged={handleCameraChange}
                     scaleControl={false}
                     fullscreenControl={false}
@@ -585,7 +585,24 @@ export default function CustomeMap() {
 
                 </Map>)}
             </APIProvider>
-            <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'white', padding: '10px', border: '1px solid gray', zIndex: 1000 }}>
+            <div style={{
+                position: 'absolute',
+                top: '20px',
+                left: '50%',
+                transform: 'translateX(-450%)',
+                background: 'rgba(255, 255, 255, 0.95)',
+                padding: '12px 24px',
+                border: 'none',
+                borderRadius: '25px',
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.12)',
+                zIndex: 1000,
+                color: '#333',
+                fontSize: '17px',
+                fontWeight: '600',
+                textAlign: 'center',
+                whiteSpace: 'nowrap',
+                minWidth: '180px',
+            }}>
                 {textContent}
             </div>
         </div>

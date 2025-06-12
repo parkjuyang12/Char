@@ -8,9 +8,9 @@ import Nav from "../components/Nav";
 
 export default function MyAccountPage() {
     const [user] = useState({
-        name: "홍길동",
-        email: "hong@example.com",
-        phone: "010-1234-5678",
+        name: "박주양",
+        email: "parkjuyang@naver.com",
+        phone: "010-3993-9440",
         profileImage: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop",
         chargingHistory: 12,
         favoriteStations: 5,
